@@ -127,8 +127,7 @@ class App extends Component {
             <header className="App-header">
               <img src={logo} alt='City Bureau logo' />
               <h1 className="title">City Scrapers Events</h1>
-              {/* TODO: Add link */}
-              <a href="" className='is-pulled-right'>Download Source Data</a>
+              <a href={config.eventSource} className='is-pulled-right'>Download Source Data</a>
             </header>
             <div className="columns">
               <div className="events-panel column is-one-half">
