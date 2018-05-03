@@ -1,0 +1,19 @@
+.Event {
+  padding-bottom: 1rem;
+}
+
+.Event > .card {
+  transition: background-color 1s ease-in-out;
+}
+
+.card-content .tag {
+  padding-left: 0;
+}
+
+.card-footer-item {
+  text-align: center;
+}
+
+.selected > .card {
+  background-color: lightyellow;
+}

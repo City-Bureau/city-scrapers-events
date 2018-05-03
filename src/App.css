@@ -1,0 +1,82 @@
+.App-header {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.App-header > img,
+.App-header > h1 {
+  margin-right: 1rem;
+  max-height: 4rem;
+}
+
+.App-header > a {
+  margin-left: auto;
+}
+
+.hero-body {
+  padding-top: 0.5rem;
+}
+
+.hero-body > .container,
+.hero-body > .container > .columns {
+  height: calc(100% - 1.5rem);
+}
+
+.hero-body > .container > .columns {
+  padding-bottom: 1.5rem;
+}
+
+.events-panel.column {
+  height: 100%;
+  position: relative;
+}
+
+.events-panel-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.events-scroll-panel {
+  padding: 1rem;
+  flex-grow: 1;
+}
+
+.controls > .columns > .column:first-child {
+  padding-bottom: 0;
+}
+.controls > .columns > .column:last-child {
+  padding-top: 0;
+}
+
+.controls {
+  margin-bottom: 1rem;
+}
+
+
+@media (min-width: 769px) {
+  .hero-body {
+    padding-top: 2rem;
+  }
+  .controls > .columns {
+    margin-top: 0.15rem;
+  }
+  .controls > .columns > .column:first-child {
+    padding-bottom: 0.75rem;
+  }
+  .controls > .columns > .column:last-child {
+    padding-top: 0.75rem;
+  }
+  .events-panel.column {
+    height: auto;
+  }
+  .events-scroll-panel {
+    background-color: whitesmoke;
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "city-scrapers-events",
+  "version": "0.1.0",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "moment": "^2.22.1",
+    "react": "^16.3.2",
+    "react-big-calendar": "^0.19.1",
+    "react-dom": "^16.3.2",
+    "react-scripts": "1.1.4",
+    "react-select": "^1.2.1",
+    "react-virtualized": "^9.18.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "bulma": "^0.7.1",
+    "gh-pages": "^1.1.0"
+  }
+}
