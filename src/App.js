@@ -30,6 +30,7 @@ class App extends Component {
     this.handleSearchInput = debounce(500, this.handleSearchInput);
     this.state = {
       events: [],
+      regionValue: [],
       agencyValue: [],
       monthValue: [],
       yearValue: [],
@@ -72,6 +73,10 @@ class App extends Component {
 
   filteredEvents(allEvents) {
     let events = allEvents;
+    if (this.state.regionValue.length) {
+      const regions = this.state.regionValue.map(v => v.value);
+      events = events.filter(e => regions.includes(e.id.split('_')[0]));
+    }
     if (this.state.agencyValue.length) {
       const agencies = this.state.agencyValue.map(v => v.label);
       events = events.filter(e => agencies.includes(e.agency));
@@ -128,12 +133,22 @@ class App extends Component {
               <div className="events-panel column is-one-half">
                 <div className='events-panel-container'>
                   <div className="controls columns is-gapless is-multiline is-mobile">
-                    <div className='column is-full'>
+                    <div className='column is-one-half'>
                       <input
                         className="input"
                         type="text"
                         placeholder="Search names and descriptions"
                         onChange={(event) => this.handleSearchInput(event.target.value)} />
+                    </div>
+                    <div className='column is-one-half'>
+                      <Select
+                        closeOnSelect={false}
+                        multi
+                        onChange={(val) => this.handleSelectChange({ regionValue: val })}
+                        placeholder="Select regions"
+                        options={config.REGION_OPTIONS}
+                        value={this.state.regionValue}
+                      />
                     </div>
                     <div className='column is-full'>
                       <Select

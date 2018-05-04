@@ -3,6 +3,12 @@ const years = [currentYear - 1, currentYear, currentYear + 1];
 
 const config = {
   EVENT_SOURCE: 'https://s3.amazonaws.com/city-scrapers-events-feed/latest.json',
+  REGION_OPTIONS: [
+    { label: 'Chicago', value: 'chi' },
+    { label: 'Cook County', value: 'cook' },
+    { label: 'Illinois', value: 'il' },
+    { label: 'Detroit', value: 'det' }
+  ],
   AGENCY_OPTIONS: [
     { label: 'Chicago Animal Care and Control Commission', value: 'chi_animal' },
     { label: 'Building Commission of Chicago', value: 'chi_buildings' },
