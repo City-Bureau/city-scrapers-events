@@ -6,6 +6,11 @@
   transition: background-color 1s ease-in-out;
 }
 
+.Event .description {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
 .card-content .tag {
   padding-left: 0;
 }

@@ -4,6 +4,7 @@ import axios from 'axios';
 import BigCalendar from 'react-big-calendar';
 import Select from 'react-select';
 import { AutoSizer, List, CellMeasurer, CellMeasurerCache } from 'react-virtualized';
+import { debounce } from 'throttle-debounce';
 
 import 'bulma/css/bulma.css'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -26,11 +27,13 @@ class App extends Component {
     });
     window.addEventListener('resize', () => this._cache.clearAll());
 
+    this.handleSearchInput = debounce(500, this.handleSearchInput);
     this.state = {
       events: [],
       agencyValue: [],
       monthValue: [],
       yearValue: [],
+      searchInput: undefined,
       selected: undefined
     };
   }
@@ -63,6 +66,10 @@ class App extends Component {
     });
   }
 
+  handleSearchInput(searchInput) {
+    this.setState({ searchInput });
+  }
+
   filteredEvents(allEvents) {
     let events = allEvents;
     if (this.state.agencyValue.length) {
@@ -76,6 +83,13 @@ class App extends Component {
     if (this.state.yearValue.length) {
       const years = this.state.yearValue.map(v => v.value);
       events = events.filter(e => years.includes(e.start.get('year')));
+    }
+
+    const input = this.state.searchInput ? this.state.searchInput.trim().toLowerCase() : undefined;
+    if (input) {
+      events = events.filter(e => {
+        return [e.agency, e.name, e.description].join(' ').toLowerCase().includes(input);
+      });
     }
     return events;
   }
@@ -111,38 +125,45 @@ class App extends Component {
               <a href={config.EVENT_SOURCE} className='is-pulled-right'>Download Source Data</a>
             </header>
             <div className="columns">
-              <div className="events-panel column is-one-third">
+              <div className="events-panel column is-one-half">
                 <div className='events-panel-container'>
-                  <div className="controls">
-                    <Select
-                      closeOnSelect={false}
-                      multi
-                      onChange={(val) => this.handleSelectChange({ agencyValue: val })}
-                      placeholder="Select agencies"
-                      options={config.AGENCY_OPTIONS}
-                      value={this.state.agencyValue}
-                    />
-                    <div className='columns'>
-                      <div className='column is-one-half'>
-                        <Select
-                          closeOnSelect={false}
-                          multi
-                          onChange={(val) => this.handleSelectChange({ monthValue: val })}
-                          placeholder='Select month(s)'
-                          options={config.MONTH_OPTIONS}
-                          value={this.state.monthValue}
-                        />
-                      </div>
-                      <div className='column is-one-half'>
-                        <Select
-                          closeOnSelect={false}
-                          multi
-                          onChange={(val) => this.handleSelectChange({ yearValue: val })}
-                          placeholder='Select year(s)'
-                          options={config.YEAR_OPTIONS}
-                          value={this.state.yearValue}
-                        />
-                      </div>
+                  <div className="controls columns is-gapless is-multiline">
+                    <div className='column is-full'>
+                      <input
+                        className="input"
+                        type="text"
+                        placeholder="Search names and descriptions"
+                        onChange={(event) => this.handleSearchInput(event.target.value)} />
+                    </div>
+                    <div className='column is-full'>
+                      <Select
+                        closeOnSelect={false}
+                        multi
+                        onChange={(val) => this.handleSelectChange({ agencyValue: val })}
+                        placeholder="Select agencies"
+                        options={config.AGENCY_OPTIONS}
+                        value={this.state.agencyValue}
+                      />
+                    </div>
+                    <div className='column is-one-half'>
+                      <Select
+                        closeOnSelect={false}
+                        multi
+                        onChange={(val) => this.handleSelectChange({ monthValue: val })}
+                        placeholder='Select month(s)'
+                        options={config.MONTH_OPTIONS}
+                        value={this.state.monthValue}
+                      />
+                    </div>
+                    <div className='column is-one-half'>
+                      <Select
+                        closeOnSelect={false}
+                        multi
+                        onChange={(val) => this.handleSelectChange({ yearValue: val })}
+                        placeholder='Select year(s)'
+                        options={config.YEAR_OPTIONS}
+                        value={this.state.yearValue}
+                      />
                     </div>
                   </div>
                   <div className="events-scroll-panel">
@@ -163,7 +184,7 @@ class App extends Component {
                   </div>
                 </div>
               </div>
-              <div className="calendar column is-two-thirds is-hidden-mobile">
+              <div className="calendar column is-one-half is-hidden-touch">
                 <BigCalendar
                   events={events}
                   startAccessor={(e) => e.start.toDate()}

@@ -12,7 +12,8 @@
     "react-dom": "^16.3.2",
     "react-scripts": "1.1.4",
     "react-select": "^1.2.1",
-    "react-virtualized": "^9.18.5"
+    "react-virtualized": "^9.18.5",
+    "throttle-debounce": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

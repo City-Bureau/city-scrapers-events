@@ -34,12 +34,12 @@ class Event extends Component {
             <h4 className='title is-4'>{event.agency}</h4>
             <h5 className='subtitle'>{event.name}</h5>
             <p className='date'>{event.start.format('dddd, MMMM Do, YYYY')}<br/>{event.start.format('h:mma')}</p>
-            <br />
-            <p className='description'>
-              <span className='tag is-white'>Description</span> {event.description}
-            </p>
             <p className='location'>
               <span className='tag is-white'>Location</span> {locations[0]}{locations.length === 2 ? <br/> : ''}{locations[1]}
+            </p>
+            <br/>
+            <p className='description'>
+              <span className='tag is-white'>Description</span> {event.description}
             </p>
           </div>
           <footer className='card-footer'>
