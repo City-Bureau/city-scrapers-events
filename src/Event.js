@@ -44,9 +44,9 @@ class Event extends Component {
           </div>
           <footer className='card-footer'>
             {event.sources && event.sources[0].url ? (
-              <p className='card-footer-item'><a href={event.sources[0].url}>View On Agency Site</a></p>
+              <p className='card-footer-item'><a href={event.sources[0].url} target='_blank'>View On Agency Site</a></p>
             ) : ''}
-            <p className='card-footer-item'><a href={this.gCalLink(event)}>Add to Google Calendar</a></p>
+            <p className='card-footer-item'><a href={this.gCalLink(event)} target='_blank'>Add to Google Calendar</a></p>
           </footer>
         </div>
       </div>
