@@ -22,7 +22,7 @@ class App extends Component {
     super(props);
 
     this._cache = new CellMeasurerCache({
-      fixedWidth: true, minHeight: 25
+      fixedWidth: true, minHeight: 250
     });
     window.addEventListener('resize', () => this._cache.clearAll());
 
@@ -41,8 +41,9 @@ class App extends Component {
         let data = res.data.split('\n').map(JSON.parse);
         const events = data.map((e, i) => {
           e.start = moment.tz(e.start_time, e.timezone);
-          e.end = moment.tz(e.end_time, e.timezone);
-          e.agency = config.AGENCY_OPTIONS.find(a => a.value === e.id.split('/')[0]).label;
+          e.end = e.end_time ? moment.tz(e.end_time, e.timezone) : e.start.add(1, 'hours');
+          const agency = config.AGENCY_OPTIONS.find(a => a.value === e.id.split('/')[0]);
+          if (agency) { e.agency = agency.label; }
           e.title = `${e.agency} - ${e.name}: ${e.start.format('YYYY MM DD')}`
           return e;
         }).sort((a, b) => a.start.toDate() - b.start.toDate());
@@ -110,7 +111,7 @@ class App extends Component {
               <a href={config.EVENT_SOURCE} className='is-pulled-right'>Download Source Data</a>
             </header>
             <div className="columns">
-              <div className="events-panel column is-one-half">
+              <div className="events-panel column is-one-third">
                 <div className='events-panel-container'>
                   <div className="controls">
                     <Select
@@ -118,7 +119,7 @@ class App extends Component {
                       multi
                       onChange={(val) => this.handleSelectChange({ agencyValue: val })}
                       placeholder="Select agencies"
-                      options={this.state.AGENCY_OPTIONS}
+                      options={config.AGENCY_OPTIONS}
                       value={this.state.agencyValue}
                     />
                     <div className='columns'>
@@ -162,7 +163,7 @@ class App extends Component {
                   </div>
                 </div>
               </div>
-              <div className="calendar column is-one-half is-hidden-mobile">
+              <div className="calendar column is-two-thirds is-hidden-mobile">
                 <BigCalendar
                   events={events}
                   startAccessor={(e) => e.start.toDate()}
