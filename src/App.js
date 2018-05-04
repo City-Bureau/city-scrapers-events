@@ -60,18 +60,8 @@ class App extends Component {
       });
   }
 
-  handleChangeAgency(agencyValue) {
-    this.setState({ agencyValue });
-    this._cache.clearAll();
-  }
-
-  handleChangeMonth(monthValue) {
-    this.setState({ monthValue });
-    this._cache.clearAll();
-  }
-
-  handleChangeYear(yearValue) {
-    this.setState({ yearValue });
+  handleSelectChange(stateObj) {
+    this.setState(stateObj);
     this._cache.clearAll();
   }
 
@@ -82,25 +72,25 @@ class App extends Component {
     });
   }
 
-  filteredEvents() {
-    let events = this.state.events;
+  filteredEvents(allEvents) {
+    let events = allEvents;
     if (this.state.agencyValue.length) {
       const agencies = this.state.agencyValue.map(v => v.value);
       events = events.filter(e => agencies.includes(e.fields.agency_name));
     }
     if (this.state.monthValue.length) {
       const months = this.state.monthValue.map(v => v.value);
-      events = events.filter(e => months.includes(e.start.getMonth()));
+      events = events.filter(e => months.includes(e.start.get('month')));
     }
     if (this.state.yearValue.length) {
       const years = this.state.yearValue.map(v => v.value);
-      events = events.filter(e => years.includes(e.start.getFullYear()));
+      events = events.filter(e => years.includes(e.start.get('year')));
     }
     return events;
   }
 
   render() {
-    const events = this.filteredEvents();
+    const events = this.filteredEvents(this.state.events);
     const selectedIndex = events.findIndex(e => e.idx === this.state.selected);
 
     const rowRenderer = ({ index, key, parent, style }) => {
@@ -136,7 +126,7 @@ class App extends Component {
                     <Select
                       closeOnSelect={false}
                       multi
-                      onChange={this.handleChangeAgency.bind(this)}
+                      onChange={(val) => this.handleSelectChange({ agencyValue: val })}
                       placeholder="Select agencies"
                       options={this.state.agencyOptions}
                       value={this.state.agencyValue}
@@ -146,7 +136,7 @@ class App extends Component {
                         <Select
                           closeOnSelect={false}
                           multi
-                          onChange={this.handleChangeMonth.bind(this)}
+                          onChange={(val) => this.handleSelectChange({ monthValue: val })}
                           placeholder='Select month(s)'
                           options={config.MONTH_OPTIONS}
                           value={this.state.monthValue}
@@ -156,7 +146,7 @@ class App extends Component {
                         <Select
                           closeOnSelect={false}
                           multi
-                          onChange={this.handleChangeYear.bind(this)}
+                          onChange={(val) => this.handleSelectChange({ yearValue: val })}
                           placeholder='Select year(s)'
                           options={config.YEAR_OPTIONS}
                           value={this.state.yearValue}

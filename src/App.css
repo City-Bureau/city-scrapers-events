@@ -1,7 +1,14 @@
 .App-header {
   display: flex;
   flex-direction: row;
-  align-items: baseline;
+  margin-bottom: 1rem;
+}
+
+.App-header > h1 {
+  font-size: 1.5rem;
+}
+.App-header > a {
+  font-size: 0.75rem;
 }
 
 .App-header > img,
@@ -63,6 +70,16 @@
 
 
 @media (min-width: 769px) {
+  .App-header {
+    align-items: baseline;
+    margin-bottom: 0;
+  }
+  .App-header > h1 {
+    font-size: 2rem;
+  }
+  .App-header > a {
+    font-size: 1rem;
+  }
   .hero-body {
     padding-top: 2rem;
   }
