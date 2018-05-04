@@ -127,7 +127,7 @@ class App extends Component {
             <div className="columns">
               <div className="events-panel column is-one-half">
                 <div className='events-panel-container'>
-                  <div className="controls columns is-gapless is-multiline">
+                  <div className="controls columns is-gapless is-multiline is-mobile">
                     <div className='column is-full'>
                       <input
                         className="input"
