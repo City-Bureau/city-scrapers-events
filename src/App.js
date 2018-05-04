@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import axios from 'axios';
 import BigCalendar from 'react-big-calendar';
 import Select from 'react-select';
@@ -28,7 +28,6 @@ class App extends Component {
 
     this.state = {
       events: [],
-      agencyOptions: [],
       agencyValue: [],
       monthValue: [],
       yearValue: [],
@@ -37,26 +36,17 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios(config.eventSource)
+    axios(config.EVENT_SOURCE)
       .then(res => {
-        let data = res.data;
-        let startEvents = data;
-        for (let i = 0; i < 25; ++i) {
-          startEvents = startEvents.concat(data);
-        }
-        const events = startEvents.map((e, i) => {
-          e.idx = i;
-          e.start = moment(e.fields.start_time);
-          e.end = e.fields.end_time ? moment(e.fields.end_time) : e.start.add(1, 'hours');
-          e.title = `${e.fields.agency_name}${e.fields.name ? `- ${e.fields.name}` : ''
-            }: ${e.start.format('YYYY MM DD')}`
+        let data = res.data.split('\n').map(JSON.parse);
+        const events = data.map((e, i) => {
+          e.start = moment.tz(e.start_time, e.timezone);
+          e.end = moment.tz(e.end_time, e.timezone);
+          e.agency = config.AGENCY_OPTIONS.find(a => a.value === e.id.split('/')[0]).label;
+          e.title = `${e.agency} - ${e.name}: ${e.start.format('YYYY MM DD')}`
           return e;
         }).sort((a, b) => a.start.toDate() - b.start.toDate());
-
-        const agencyOptions = [...new Set(events.map(e => e.fields.agency_name))].map(e => {
-          return { label: e, value: e };
-        });
-        this.setState({ events, agencyOptions });
+        this.setState({ events });
       });
   }
 
@@ -67,7 +57,7 @@ class App extends Component {
 
   handleSelectEvent(event) {
     // Scrolling to an event, and then un-setting the selection for scroll
-    this.setState({ selected: event.idx }, () => {
+    this.setState({ selected: event.id }, () => {
       setTimeout(() => this.setState({ selected: undefined }), 1000);
     });
   }
@@ -75,8 +65,8 @@ class App extends Component {
   filteredEvents(allEvents) {
     let events = allEvents;
     if (this.state.agencyValue.length) {
-      const agencies = this.state.agencyValue.map(v => v.value);
-      events = events.filter(e => agencies.includes(e.fields.agency_name));
+      const agencies = this.state.agencyValue.map(v => v.label);
+      events = events.filter(e => agencies.includes(e.agency));
     }
     if (this.state.monthValue.length) {
       const months = this.state.monthValue.map(v => v.value);
@@ -91,7 +81,7 @@ class App extends Component {
 
   render() {
     const events = this.filteredEvents(this.state.events);
-    const selectedIndex = events.findIndex(e => e.idx === this.state.selected);
+    const selectedIndex = events.findIndex(e => e.id === this.state.selected);
 
     const rowRenderer = ({ index, key, parent, style }) => {
       const event = events[index];
@@ -117,7 +107,7 @@ class App extends Component {
             <header className="App-header">
               <img src={logo} alt='City Bureau logo' />
               <h1 className="title">City Scrapers Events</h1>
-              <a href={config.eventSource} className='is-pulled-right'>Download Source Data</a>
+              <a href={config.EVENT_SOURCE} className='is-pulled-right'>Download Source Data</a>
             </header>
             <div className="columns">
               <div className="events-panel column is-one-half">
@@ -128,7 +118,7 @@ class App extends Component {
                       multi
                       onChange={(val) => this.handleSelectChange({ agencyValue: val })}
                       placeholder="Select agencies"
-                      options={this.state.agencyOptions}
+                      options={this.state.AGENCY_OPTIONS}
                       value={this.state.agencyValue}
                     />
                     <div className='columns'>

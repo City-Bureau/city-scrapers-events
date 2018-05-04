@@ -2,7 +2,10 @@ const currentYear = (new Date()).getFullYear();
 const years = [currentYear - 1, currentYear, currentYear + 1];
 
 const config = {
-  eventSource: 'https://raw.githubusercontent.com/City-Bureau/assignment-form/master/test/fixtures/events.json',
+  EVENT_SOURCE: 'https://s3.amazonaws.com/city-scrapers-events-feed/latest.json',
+  AGENCY_OPTIONS: [
+    { label: 'Chicago Public Building Commission', value: 'chi_buildings' },
+  ],
   MONTH_OPTIONS: [
     { label: 'January', value: 0 },
     { label: 'February', value: 1 },

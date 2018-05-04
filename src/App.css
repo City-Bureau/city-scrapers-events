@@ -34,6 +34,10 @@
   padding-bottom: 1.5rem;
 }
 
+.calendar {
+  max-width: 50vw;
+}
+
 .events-panel.column {
   height: 100%;
   position: relative;
