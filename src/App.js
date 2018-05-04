@@ -23,7 +23,7 @@ class App extends Component {
     super(props);
 
     this._cache = new CellMeasurerCache({
-      fixedWidth: true, minHeight: 250
+      fixedWidth: true, minHeight: 350
     });
     window.addEventListener('resize', () => this._cache.clearAll());
 
@@ -40,6 +40,8 @@ class App extends Component {
   }
 
   componentDidMount() {
+    const today = new Date();
+    const monthStart = moment([today.getFullYear(), today.getMonth(), 1]);
     axios(config.EVENT_SOURCE)
       .then(res => {
         let data = res.data.split('\n').map(JSON.parse);
@@ -50,7 +52,8 @@ class App extends Component {
           if (agency) { e.agency = agency.label; }
           e.title = `${e.agency} - ${e.name}: ${e.start.format('YYYY MM DD')}`
           return e;
-        }).sort((a, b) => a.start.toDate() - b.start.toDate());
+        }).filter(e => e.start >= monthStart
+        ).sort((a, b) => a.start.toDate() - b.start.toDate());
         this.setState({ events });
       });
   }
@@ -69,6 +72,7 @@ class App extends Component {
 
   handleSearchInput(searchInput) {
     this.setState({ searchInput });
+    this._cache.clearAll();
   }
 
   filteredEvents(allEvents) {
