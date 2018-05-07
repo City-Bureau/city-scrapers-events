@@ -47,7 +47,7 @@ class App extends Component {
         let data = res.data.split('\n').map(JSON.parse);
         const events = data.map((e, i) => {
           e.start = moment.tz(e.start_time, e.timezone);
-          e.end = e.end_time ? moment.tz(e.end_time, e.timezone) : e.start.add(1, 'hours');
+          e.end = e.end_time ? moment.tz(e.end_time, e.timezone) : e.start.clone().add(1, 'hours');
           const agency = config.AGENCY_OPTIONS.find(a => a.value === e.id.split('/')[0]);
           if (agency) { e.agency = agency.label; }
           e.title = `${e.agency} - ${e.name}: ${e.start.format('YYYY MM DD')}`
