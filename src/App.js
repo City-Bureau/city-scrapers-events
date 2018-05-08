@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import moment from 'moment-timezone';
-import axios from 'axios';
 import BigCalendar from 'react-big-calendar';
 import Select from 'react-select';
 import { AutoSizer, List, CellMeasurer, CellMeasurerCache } from 'react-virtualized';
@@ -31,6 +30,7 @@ class App extends Component {
     this.state = {
       events: [],
       regionValue: [],
+      agencyOptions: [],
       agencyValue: [],
       monthValue: [],
       yearValue: [],
@@ -42,19 +42,22 @@ class App extends Component {
   componentDidMount() {
     const today = new Date();
     const monthStart = moment([today.getFullYear(), today.getMonth(), 1]);
-    axios(config.EVENT_SOURCE)
-      .then(res => {
-        let data = res.data.split('\n').map(JSON.parse);
+    fetch(config.EVENT_SOURCE)
+      .then(res => res.text())
+      .then(text => {
+        let data = text.split('\n').map(JSON.parse);
         const events = data.map((e, i) => {
           e.start = moment.tz(e.start_time, e.timezone);
           e.end = e.end_time ? moment.tz(e.end_time, e.timezone) : e.start.clone().add(1, 'hours');
-          const agency = config.AGENCY_OPTIONS.find(a => a.value === e.id.split('/')[0]);
-          if (agency) { e.agency = agency.label; }
-          e.title = `${e.agency} - ${e.name}: ${e.start.format('YYYY MM DD')}`
+          e.title = `${e.agency_name} - ${e.name}: ${e.start.format('YYYY MM DD')}`
           return e;
         }).filter(e => e.start >= monthStart
         ).sort((a, b) => a.start.toDate() - b.start.toDate());
-        this.setState({ events });
+
+        const agencyOptions = [...new Set(events.map(e => e.agency_name))].map(e => {
+          return { label: e, value: e };
+        });
+        this.setState({ events, agencyOptions });
       });
   }
 
@@ -83,7 +86,7 @@ class App extends Component {
     }
     if (this.state.agencyValue.length) {
       const agencies = this.state.agencyValue.map(v => v.label);
-      events = events.filter(e => agencies.includes(e.agency));
+      events = events.filter(e => agencies.includes(e.agency_name));
     }
     if (this.state.monthValue.length) {
       const months = this.state.monthValue.map(v => v.value);
@@ -97,7 +100,7 @@ class App extends Component {
     const input = this.state.searchInput ? this.state.searchInput.trim().toLowerCase() : undefined;
     if (input) {
       events = events.filter(e => {
-        return [e.agency, e.name, e.description].join(' ').toLowerCase().includes(input);
+        return [e.agency_name, e.name, e.description].join(' ').toLowerCase().includes(input);
       });
     }
     return events;
@@ -160,7 +163,7 @@ class App extends Component {
                         multi
                         onChange={(val) => this.handleSelectChange({ agencyValue: val })}
                         placeholder="Select agencies"
-                        options={config.AGENCY_OPTIONS}
+                        options={this.state.agencyOptions}
                         value={this.state.agencyValue}
                       />
                     </div>

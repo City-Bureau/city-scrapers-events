@@ -3,7 +3,7 @@ import './Event.css'
 
 class Event extends Component {
   gCalLink(event) {
-    const name = encodeURIComponent(`${event.agency} - ${event.name}`);
+    const name = encodeURIComponent(`${event.agency_name} - ${event.name}`);
     const start = event.start;
     const end = event.end;
     const dateString = encodeURIComponent(`${start.format('YYYYMMDD')}T${start.format('HHmmss')
@@ -31,7 +31,7 @@ class Event extends Component {
       <div className={classNames} style={this.props.style}>
         <div className='card'>
           <div className='card-content'>
-            <h4 className='title is-4'>{event.agency}</h4>
+            <h4 className='title is-4'>{event.agency_name}</h4>
             <h5 className='subtitle'>{event.name}</h5>
             <p className='date'>{event.start.format('dddd, MMMM Do, YYYY')}<br/>{event.start.format('h:mma')}</p>
             <p className='location'>
