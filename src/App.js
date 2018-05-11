@@ -28,6 +28,7 @@ class App extends Component {
 
     this.handleSearchInput = debounce(500, this.handleSearchInput);
     this.state = {
+      isLoading: true,
       events: [],
       regionValue: [],
       agencyOptions: [],
@@ -57,7 +58,7 @@ class App extends Component {
         const agencyOptions = [...new Set(events.map(e => e.agency_name))].map(e => {
           return { label: e, value: e };
         });
-        this.setState({ events, agencyOptions });
+        this.setState({ events, agencyOptions, isLoading: false });
       });
   }
 
@@ -126,6 +127,8 @@ class App extends Component {
         </CellMeasurer>
       );
     }
+    const loader = this.state.isLoading ?
+      <div className="lds-ring"><div></div><div></div><div></div><div></div></div> : '';
 
     return (
       <section className="hero is-fullheight">
@@ -189,6 +192,7 @@ class App extends Component {
                     </div>
                   </div>
                   <div className="events-scroll-panel">
+                    {loader}
                     <AutoSizer>
                       {({ height, width}) => (
                         <List
