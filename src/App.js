@@ -48,6 +48,8 @@ class App extends Component {
       .then(text => {
         let data = text.split('\n').map(JSON.parse);
         const events = data.map((e, i) => {
+          e.start_time = 'start_time' in e ? e.start_time : `${e.start.date}T${e.start.time}`;
+          e.end_time = 'end_time' in e ? e.end_time : `${e.end.date}T${e.end.time}`;
           e.start = moment.tz(e.start_time, e.timezone);
           e.end = e.end_time ? moment.tz(e.end_time, e.timezone) : e.start.clone().add(1, 'hours');
           e.title = `${e.agency_name} - ${e.name}: ${e.start.format('YYYY MM DD')}`
