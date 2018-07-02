@@ -14,7 +14,7 @@ class Event extends Component {
     if (locations) {
       link += `&location=${encodeURIComponent(locations.join(', '))}`;
     }
-    if (event.sources && event.sources[0].url) {
+    if (event.sources && event.sources.length && event.sources[0].url) {
       link += `&details=${encodeURIComponent(event.sources[0].url)}`;
     }
     return link;
@@ -26,6 +26,14 @@ class Event extends Component {
     let classNames = 'Event';
     if (this.props.selected) {
       classNames += ' selected';
+    }
+    let source = '';
+    if ('sources' in event && event.sources.length && event.sources[0].url) {
+      source = (
+        <p className='card-footer-item'>
+          <a href={event.sources[0].url} target='_blank'>View On Agency Site</a>
+        </p>
+      );
     }
     return (
       <div className={classNames} style={this.props.style}>
@@ -43,9 +51,7 @@ class Event extends Component {
             </p>
           </div>
           <footer className='card-footer'>
-            {event.sources && event.sources[0].url ? (
-              <p className='card-footer-item'><a href={event.sources[0].url} target='_blank'>View On Agency Site</a></p>
-            ) : ''}
+            {source}
             <p className='card-footer-item'><a href={this.gCalLink(event)} target='_blank'>Add to Google Calendar</a></p>
           </footer>
         </div>
