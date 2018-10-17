@@ -46,7 +46,7 @@ class App extends Component {
     fetch(config.EVENT_SOURCE)
       .then(res => res.text())
       .then(text => {
-        let data = text.split('\n').map(JSON.parse);
+        let data = text.split('\n').filter(l => l.trim()).map(JSON.parse);
         const events = data.map((e, i) => {
           e.start_time = 'start_time' in e ? e.start_time : `${e.start.date}T${e.start.time}`;
           e.end_time = 'end_time' in e ? e.end_time : `${e.end.date}T${e.end.time}`;
