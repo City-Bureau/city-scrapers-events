@@ -3,7 +3,7 @@ const years = [currentYear - 1, currentYear, currentYear + 1];
 
 const config = {
   EVENT_SOURCE:
-    "https://cityscrapers.blob.core.windows.net/city-scrapers-meetings-feed/latest.json",
+    "https://cityscrapers.blob.core.windows.net/meetings-feed/upcoming.json",
   REGION_OPTIONS: [
     { label: "Chicago", value: "chi" },
     { label: "Cook County", value: "cook" },

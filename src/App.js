@@ -47,17 +47,18 @@ class App extends Component {
       .then(res => res.text())
       .then(text => {
         let data = text.split('\n').filter(l => l.trim()).map(JSON.parse);
-        const events = data.map((e, i) => {
-          e.start_time = 'start_time' in e ? e.start_time : `${e.start.date}T${e.start.time}`;
-          e.end_time = 'end_time' in e ? e.end_time : `${e.end.date}T${e.end.time}`;
-          e.start = moment.tz(e.start_time, e.timezone);
-          e.end = e.end_time ? moment.tz(e.end_time, e.timezone) : e.start.clone().add(1, 'hours');
-          e.title = `${e.agency_name} - ${e.name}: ${e.start.format('YYYY MM DD')}`
+        const events = data.map((e) => {
+          e.agency = e["cityscrapers.org/agency"];
+          e.start = moment.tz(e.start, e.timeZone);
+          e.end = e.start.clone().add(moment.duration(e.duration));
+          if ("address" in e.locations.location) {
+            e.locations.location["cityscrapers.org/address"] = e.locations.location.address;
+          } 
           return e;
         }).filter(e => e.start >= monthStart
         ).sort((a, b) => a.start.toDate() - b.start.toDate());
 
-        const agencyOptions = [...new Set(events.map(e => e.agency_name))].map(e => {
+        const agencyOptions = [...new Set(events.map(e => e.agency))].map(e => {
           return { label: e, value: e };
         });
         this.setState({ events, agencyOptions, isLoading: false });
@@ -85,11 +86,11 @@ class App extends Component {
     let events = allEvents;
     if (this.state.regionValue.length) {
       const regions = this.state.regionValue.map(v => v.value);
-      events = events.filter(e => regions.includes(e.id.split('_')[0]));
+      events = events.filter(e => regions.includes(e['cityscrapers.org/id'].split('_')[0]));
     }
     if (this.state.agencyValue.length) {
       const agencies = this.state.agencyValue.map(v => v.label);
-      events = events.filter(e => agencies.includes(e.agency_name));
+      events = events.filter(e => agencies.includes(e.agency));
     }
     if (this.state.monthValue.length) {
       const months = this.state.monthValue.map(v => v.value);
@@ -103,7 +104,7 @@ class App extends Component {
     const input = this.state.searchInput ? this.state.searchInput.trim().toLowerCase() : undefined;
     if (input) {
       events = events.filter(e => {
-        return [e.agency_name, e.name, e.description].join(' ').toLowerCase().includes(input);
+        return [e.agency, e.title, e.description].join(' ').toLowerCase().includes(input);
       });
     }
     return events;
