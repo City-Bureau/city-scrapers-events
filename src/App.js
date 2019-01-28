@@ -72,7 +72,7 @@ class App extends Component {
 
   handleSelectEvent(event) {
     // Scrolling to an event, and then un-setting the selection for scroll
-    this.setState({ selected: event.id }, () => {
+    this.setState({ selected: event['cityscrapers.org/id'] }, () => {
       setTimeout(() => this.setState({ selected: undefined }), 1000);
     });
   }
@@ -112,7 +112,7 @@ class App extends Component {
 
   render() {
     const events = this.filteredEvents(this.state.events);
-    const selectedIndex = events.findIndex(e => e.id === this.state.selected);
+    const selectedIndex = events.findIndex(e => e['cityscrapers.org/id'] === this.state.selected);
 
     const rowRenderer = ({ index, key, parent, style }) => {
       const event = events[index];
