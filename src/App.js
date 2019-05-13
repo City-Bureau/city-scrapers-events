@@ -22,7 +22,7 @@ class App extends Component {
     super(props);
 
     this._cache = new CellMeasurerCache({
-      fixedWidth: true, minHeight: 350
+      fixedWidth: true, minHeight: 150
     });
     window.addEventListener('resize', () => this._cache.clearAll());
 
@@ -48,12 +48,9 @@ class App extends Component {
       .then(text => {
         let data = text.split('\n').filter(l => l.trim()).map(JSON.parse);
         const events = data.map((e) => {
-          e.agency = e["cityscrapers.org/agency"];
-          e.start = moment.tz(e.start, e.timeZone);
-          e.end = e.start.clone().add(moment.duration(e.duration));
-          if ("address" in e.locations.location) {
-            e.locations.location["cityscrapers.org/address"] = e.locations.location.address;
-          } 
+          e.agency = e.extra["cityscrapers.org/agency"];
+          e.start = moment.tz(e.start_time, e.timezone);
+          e.end = moment.tz(e.end_time, e.timezone);
           return e;
         }).filter(e => e.start >= monthStart
         ).sort((a, b) => a.start.toDate() - b.start.toDate());
@@ -72,7 +69,7 @@ class App extends Component {
 
   handleSelectEvent(event) {
     // Scrolling to an event, and then un-setting the selection for scroll
-    this.setState({ selected: event['cityscrapers.org/id'] }, () => {
+    this.setState({ selected: event.extra['cityscrapers.org/id'] }, () => {
       setTimeout(() => this.setState({ selected: undefined }), 1000);
     });
   }
@@ -86,7 +83,7 @@ class App extends Component {
     let events = allEvents;
     if (this.state.regionValue.length) {
       const regions = this.state.regionValue.map(v => v.value);
-      events = events.filter(e => regions.includes(e['cityscrapers.org/id'].split('_')[0]));
+      events = events.filter(e => regions.includes(e.extra['cityscrapers.org/id'].split('_')[0]));
     }
     if (this.state.agencyValue.length) {
       const agencies = this.state.agencyValue.map(v => v.label);
@@ -104,7 +101,7 @@ class App extends Component {
     const input = this.state.searchInput ? this.state.searchInput.trim().toLowerCase() : undefined;
     if (input) {
       events = events.filter(e => {
-        return [e.agency, e.title, e.description].join(' ').toLowerCase().includes(input);
+        return [e.agency, e.name, e.description].join(' ').toLowerCase().includes(input);
       });
     }
     return events;
@@ -112,7 +109,7 @@ class App extends Component {
 
   render() {
     const events = this.filteredEvents(this.state.events);
-    const selectedIndex = events.findIndex(e => e['cityscrapers.org/id'] === this.state.selected);
+    const selectedIndex = events.findIndex(e => e.extra['cityscrapers.org/id'] === this.state.selected);
 
     const rowRenderer = ({ index, key, parent, style }) => {
       const event = events[index];
@@ -218,7 +215,7 @@ class App extends Component {
                   events={events}
                   startAccessor={(e) => e.start.toDate()}
                   endAccessor={(e) => e.end.toDate()}
-                  titleAccessor='title'
+                  titleAccessor='name'
                   defaultDate={new Date()}
                   selectable
                   onSelectEvent={this.handleSelectEvent.bind(this)}

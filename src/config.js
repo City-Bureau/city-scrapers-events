@@ -9,7 +9,8 @@ const config = {
     { label: "Cook County", value: "cook" },
     { label: "Illinois", value: "il" },
     { label: "Detroit", value: "det" },
-    { label: "Wayne County", value: "wayne" }
+    { label: "Wayne County", value: "wayne" },
+    { label: "Michigan", value: "mi" },
   ],
   MONTH_OPTIONS: [
     { label: "January", value: 0 },
