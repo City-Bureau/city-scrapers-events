@@ -1,5 +1,5 @@
 const currentYear = (new Date()).getFullYear();
-const years = [currentYear - 1, currentYear, currentYear + 1];
+const years = [currentYear, currentYear + 1];
 
 const config = {
   EVENT_SOURCE:

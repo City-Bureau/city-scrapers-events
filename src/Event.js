@@ -14,7 +14,7 @@ class Event extends Component {
       link += `&location=${encodeURIComponent(event.location.name)}`;
     }
     if (event.sources.length > 0) {
-      link += `&details=${encodeURIComponent(event.sources[0].href)}`;
+      link += `&details=${encodeURIComponent(event.sources[0].url)}`;
     }
     return link;
   }
