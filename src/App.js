@@ -24,8 +24,8 @@ const localizer = momentLocalizer(moment)
 const applyFilters = ({ allEvents, region, agency, month, year, search }) => {
   let events = allEvents
   if (region.length) {
-    events = events.filter(({ extras }) =>
-      region.includes(extras["cityscrapers.org/id"].split("_")[0])
+    events = events.filter(({ extra, extras }) =>
+      region.includes((extra || extras)["cityscrapers.org/id"].split("_")[0])
     )
   }
   if (agency.length) {
@@ -59,7 +59,7 @@ const loadEvents = () =>
         .map(JSON.parse)
         .map((event) => ({
           ...event,
-          agency: event.extras["cityscrapers.org/agency"],
+          agency: (event.extras || event.extra)["cityscrapers.org/agency"],
           start: moment.tz(event.start_time, event.timezone),
           end: moment.tz(event.end_time, event.timezone),
         }))
@@ -102,7 +102,8 @@ const App = () => {
   const selectedIndex = useMemo(
     () =>
       events.findIndex(
-        ({ extras }) => extras["cityscrapers.org/id"] === selected
+        ({ extra, extras }) =>
+          (extra || extras)["cityscrapers.org/id"] === selected
       ),
     [events, selected]
   )
@@ -294,8 +295,8 @@ const App = () => {
                 titleAccessor="name"
                 defaultDate={new Date()}
                 selectable
-                onSelectEvent={({ extras }) =>
-                  setSelected(extras["cityscrapers.org/id"])
+                onSelectEvent={({ extra, extras }) =>
+                  setSelected((extra || extras)["cityscrapers.org/id"])
                 }
               />
             </div>
