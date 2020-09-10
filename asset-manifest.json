@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/city-scrapers-events/static/css/main.61e0a910.chunk.css",
-    "main.js": "/city-scrapers-events/static/js/main.c055aea0.chunk.js",
-    "main.js.map": "/city-scrapers-events/static/js/main.c055aea0.chunk.js.map",
+    "main.js": "/city-scrapers-events/static/js/main.5fe02e75.chunk.js",
+    "main.js.map": "/city-scrapers-events/static/js/main.5fe02e75.chunk.js.map",
     "runtime-main.js": "/city-scrapers-events/static/js/runtime-main.fd9e89bd.js",
     "runtime-main.js.map": "/city-scrapers-events/static/js/runtime-main.fd9e89bd.js.map",
     "static/css/2.8f309968.chunk.css": "/city-scrapers-events/static/css/2.8f309968.chunk.css",
     "static/js/2.ffd94cca.chunk.js": "/city-scrapers-events/static/js/2.ffd94cca.chunk.js",
     "static/js/2.ffd94cca.chunk.js.map": "/city-scrapers-events/static/js/2.ffd94cca.chunk.js.map",
     "index.html": "/city-scrapers-events/index.html",
-    "precache-manifest.656975f24fc753c0ade3dbdde266c133.js": "/city-scrapers-events/precache-manifest.656975f24fc753c0ade3dbdde266c133.js",
+    "precache-manifest.de20e80ef5b571117499650d9102d38a.js": "/city-scrapers-events/precache-manifest.de20e80ef5b571117499650d9102d38a.js",
     "service-worker.js": "/city-scrapers-events/service-worker.js",
     "static/css/2.8f309968.chunk.css.map": "/city-scrapers-events/static/css/2.8f309968.chunk.css.map",
     "static/css/main.61e0a910.chunk.css.map": "/city-scrapers-events/static/css/main.61e0a910.chunk.css.map",
@@ -21,6 +21,6 @@
     "static/css/2.8f309968.chunk.css",
     "static/js/2.ffd94cca.chunk.js",
     "static/css/main.61e0a910.chunk.css",
-    "static/js/main.c055aea0.chunk.js"
+    "static/js/main.5fe02e75.chunk.js"
   ]
 }

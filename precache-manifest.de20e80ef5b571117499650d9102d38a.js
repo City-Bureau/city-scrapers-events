@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e1c0380385b1f40442da69214119a240",
+    "revision": "b84dbfc703d8c7a905dfb0505e104f91",
     "url": "/city-scrapers-events/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/city-scrapers-events/static/css/2.8f309968.chunk.css"
   },
   {
-    "revision": "5c60612591ccdf25cb2d",
+    "revision": "dcf5303bb1b853622943",
     "url": "/city-scrapers-events/static/css/main.61e0a910.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/city-scrapers-events/static/js/2.ffd94cca.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "5c60612591ccdf25cb2d",
-    "url": "/city-scrapers-events/static/js/main.c055aea0.chunk.js"
+    "revision": "dcf5303bb1b853622943",
+    "url": "/city-scrapers-events/static/js/main.5fe02e75.chunk.js"
   },
   {
     "revision": "0c81663d2f127d2c85bd",
