@@ -5,7 +5,7 @@
   "homepage": "https://city-bureau.github.io/city-scrapers-events",
   "dependencies": {
     "moment": "^2.22.1",
-    "moment-timezone": "^0.5.16",
+    "moment-timezone": "^0.5.35",
     "react": "^16.3.2",
     "react-big-calendar": "^0.26.1",
     "react-dom": "^16.3.2",
