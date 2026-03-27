@@ -1,6 +1,6 @@
 # City Scrapers Events
 
-Static site that displays a calendar of the most recently scraped events from [City Scrapers](https://cityscrapers.org/) projects based off of the [`city-scrapers-template`](https://github.com/City-Bureau/city-scrapers-template/) repo. The site is served on [GitHub Pages](https://pages.github.com/) and was created with [`create-react-app`](https://github.com/facebook/create-react-app).
+Static site that displays a calendar of the most recently scraped events from [City Scrapers](https://city-scrapers.org/) projects based off of the [`city-scrapers-template`](https://github.com/City-Bureau/city-scrapers-template/) repo. The site is served on [GitHub Pages](https://pages.github.com/) and was created with [`create-react-app`](https://github.com/facebook/create-react-app).
 
 See the current site for the [`city-scrapers`](https://github.com/City-Bureau/city-scrapers/) repo here: [City Scrapers Events](https://city-bureau.github.io/city-scrapers-events/).
 
@@ -51,7 +51,7 @@ Create a copy of this repo, customize, and deploy it with these steps:
 
 ## City Scrapers
 
-If you're interested in setting something like this up for your area but aren't sure where to start you can learn more about City Scrapers at [https://cityscrapers.org/](https://cityscrapers.org/).
+If you're interested in setting something like this up for your area but aren't sure where to start you can learn more about City Scrapers at [https://city-scrapers.org/](https://city-scrapers.org/).
 
 ## License
 
