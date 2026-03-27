@@ -25,7 +25,7 @@ const applyFilters = ({ allEvents, region, agency, month, year, search }) => {
   let events = allEvents
   if (region.length) {
     events = events.filter(({ extra, extras }) =>
-      region.includes((extra || extras)["cityscrapers/id"].split("_")[0])
+      region.includes(((extra || extras)["cityscrapers/id"] || (extra || extras)["cityscrapers.org/id"]).split("_")[0])
     )
   }
   if (agency.length) {
@@ -59,7 +59,7 @@ const loadEvents = () =>
         .map(JSON.parse)
         .map((event) => ({
           ...event,
-          agency: (event.extras || event.extra)["cityscrapers/agency"],
+          agency: (event.extras || event.extra)["cityscrapers/agency"] || (event.extras || event.extra)["cityscrapers.org/agency"],
           start: moment.tz(event.start_time, event.timezone),
           end: moment.tz(event.end_time, event.timezone),
         }))
@@ -103,7 +103,7 @@ const App = () => {
     () =>
       events.findIndex(
         ({ extra, extras }) =>
-          (extra || extras)["cityscrapers/id"] === selected
+          ((extra || extras)["cityscrapers/id"] || (extra || extras)["cityscrapers.org/id"]) === selected
       ),
     [events, selected]
   )
@@ -296,7 +296,7 @@ const App = () => {
                 defaultDate={new Date()}
                 selectable
                 onSelectEvent={({ extra, extras }) =>
-                  setSelected((extra || extras)["cityscrapers/id"])
+                  setSelected((extra || extras)["cityscrapers/id"] || (extra || extras)["cityscrapers.org/id"])
                 }
               />
             </div>
